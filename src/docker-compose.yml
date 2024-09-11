@@ -1,15 +1,12 @@
 services:
   sonarqube:
-    image: sonarqube
+    image: sonarqube:community
 
   sonarqubedb:
-    image: postgres:13
+    image: postgres
 
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
-
-networks:
-  sonarnetwork:
