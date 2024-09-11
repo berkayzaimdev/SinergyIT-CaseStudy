@@ -7,7 +7,7 @@ builder.Services.AddSingleton<IMongoService, MongoService>();
 
 var app = builder.Build();
 
-app.MapGet("/", () =>
+app.MapGet("/", (IMongoService mongoService) =>
 {
 	return Results.Ok("test");
 });
