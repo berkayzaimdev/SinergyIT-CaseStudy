@@ -1,29 +1,63 @@
+version: '3'
+
 services:
+  sonarqubedb:
+    container_name: sonarqubedb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sonarqube
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - sonarqubedb:/var/lib/postgresql/data/
+
+  giteadb:
+    container_name: giteadb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gitea
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - giteadb:/var/lib/postgresql/data/
 
   sonarqube:
     container_name: sonarqube
-    ports:
-      - "9000:9000"
     depends_on:
       - sonarqubedb
+    ports:
+      - "9000:9000"
     environment:
       - SONAR_JDBC_URL=jdbc:postgresql://sonarqubedb:5432/sonarqube
-      - SONAR_JDBC_USERNAME=sonar
-      - SONAR_JDBC_PASSWORD=sonar
+      - SONAR_JDBC_USERNAME=postgres
+      - SONAR_JDBC_PASSWORD=postgres
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
 
-  sonarqubedb:
-    container_name: sonarqube_db
+  gitea:
+    container_name: gitea
+    depends_on:
+      - giteadb
+    ports:
+      - "3000:3000"
+      - "222:22"
     environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-      POSTGRES_DB: sonarqube
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=giteadb:5433
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=postgres
+      - GITEA__database__PASSWD=postgres
     volumes:
-      - postgresql:/var/lib/postgresql
-      - postgresql_data:/var/lib/postgresql/data
+      - gitea_data:/data
+    restart: always
 
   catalog.api:
     environment:
@@ -38,8 +72,9 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
 volumes:
+  sonarqubedb:
+  giteadb:
   sonarqube_data:
   sonarqube_extensions:
   sonarqube_logs:
-  postgresql:
-  postgresql_data:
+  gitea_data:

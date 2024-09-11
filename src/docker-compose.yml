@@ -3,10 +3,25 @@ services:
     image: sonarqube:community
 
   sonarqubedb:
-    image: postgres
+    image: postgres:latest
+
+  gitea:
+    image: gitea/gitea:latest
+
+  giteadb:
+    image: postgres:latest
 
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+
+
+volumes:
+  sonarqubedb:
+  giteadb:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  gitea_data:
