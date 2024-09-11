@@ -1,6 +1,15 @@
+using Catalog.API.Services.Abstract;
+using Catalog.API.Services.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IMongoService, MongoService>();
+
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () =>
+{
+	return Results.Ok("test");
+});
 
-app.Run();
+await app.RunAsync();
