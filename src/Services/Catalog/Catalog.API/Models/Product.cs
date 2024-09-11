@@ -1,14 +1,10 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using Catalog.API.Models.Common;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Catalog.API.Models;
 
-public class Product
+public class Product : MongoEntity, IMongoEntity
 {
-    [BsonId]
-    [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-    [BsonElement(Order = 0)]
-    public Guid Id { get; set; }
-
 	[BsonRepresentation(MongoDB.Bson.BsonType.String)]
 	[BsonElement(Order = 1)]
 	public string Name { get; set; } = default!;
