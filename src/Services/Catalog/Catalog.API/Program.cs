@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IMongoService, MongoService>();
 
-var app = builder.Build(); 
+var app = builder.Build();  
 
 app.MapGet("/", (IMongoService mongoService) =>
 {
