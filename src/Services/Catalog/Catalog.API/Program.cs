@@ -1,3 +1,4 @@
+using Catalog.API.Models;
 using Catalog.API.Services.Abstract;
 using Catalog.API.Services.Concrete;
 
@@ -9,6 +10,7 @@ var app = builder.Build();
 
 app.MapGet("/", (IMongoService mongoService) =>
 {
+	var collection = mongoService.GetCollection<Brand>();
 	return Results.Ok("test");
 });
 

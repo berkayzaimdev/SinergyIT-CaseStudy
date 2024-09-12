@@ -5,11 +5,17 @@ services:
   sonarqubedb:
     image: postgres:latest
 
+  sonarscanner:
+    image: openjdk:17-jdk
+
   gitea:
     image: gitea/gitea:latest
 
   giteadb:
     image: postgres:latest
+
+  jenkins:
+    image: jenkins/jenkins:lts
 
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
@@ -17,12 +23,11 @@ services:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
 
-  jenkins:
-    image: jenkins/jenkins:lts
+  catalogdb:
+    image: mongo:latest
 
-  sonarscanner:
-    image: openjdk:17-jdk
-
+  mongo-express:
+    image: mongo-express:latest
 
 volumes:
   sonarqubedb:

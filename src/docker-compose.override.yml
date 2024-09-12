@@ -1,29 +1,6 @@
 version: '3'
 
 services:
-  sonarqubedb:
-    container_name: sonarqubedb
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: sonarqube
-    restart: always
-    ports:
-      - "5433:5432"
-    volumes:
-      - sonarqubedb:/var/lib/postgresql/data/
-
-  giteadb:
-    container_name: giteadb
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: gitea
-    restart: always
-    ports:
-      - "5432:5432"
-    volumes:
-      - giteadb:/var/lib/postgresql/data/
 
   sonarqube:
     container_name: sonarqube
@@ -39,6 +16,25 @@ services:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
+
+  sonarqubedb:
+    container_name: sonarqubedb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sonarqube
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - sonarqubedb:/var/lib/postgresql/data/
+
+  sonarscanner:
+    container_name: sonarscanner
+    entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./:/app
+    working_dir: /app
 
   gitea:
     container_name: gitea
@@ -59,12 +55,17 @@ services:
       - gitea_data:/data
     restart: always
 
-  sonarscanner:
-    container_name: sonarscanner
-    entrypoint: ["tail", "-f", "/dev/null"]
+  giteadb:
+    container_name: giteadb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gitea
+    restart: always
+    ports:
+      - "5432:5432"
     volumes:
-      - ./:/app
-    working_dir: /app
+      - giteadb:/var/lib/postgresql/data/
 
   jenkins:
     container_name: jenkins
@@ -80,6 +81,8 @@ services:
     restart: always
 
   catalog.api:
+    depends_on:
+      - catalogdb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -90,6 +93,22 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  catalogdb:
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@catalogdb:27017/
+      ME_CONFIG_BASICAUTH: false
 
 volumes:
   sonarqubedb:
