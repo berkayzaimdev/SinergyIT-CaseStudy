@@ -9,7 +9,7 @@ services:
       POSTGRES_DB: sonarqube
     restart: always
     ports:
-      - "5432:5432"
+      - "5433:5433"
     volumes:
       - sonarqubedb:/var/lib/postgresql/data/
 
@@ -21,7 +21,7 @@ services:
       POSTGRES_DB: gitea
     restart: always
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - giteadb:/var/lib/postgresql/data/
 
@@ -32,7 +32,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      - SONAR_JDBC_URL=jdbc:postgresql://sonarqubedb:5432/sonarqube
+      - SONAR_JDBC_URL=jdbc:postgresql://sonarqubedb:5433/sonarqube
       - SONAR_JDBC_USERNAME=postgres
       - SONAR_JDBC_PASSWORD=postgres
     volumes:
@@ -51,7 +51,7 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__HOST=giteadb:5433
+      - GITEA__database__HOST=giteadb:5432
       - GITEA__database__NAME=gitea
       - GITEA__database__USER=postgres
       - GITEA__database__PASSWD=postgres
