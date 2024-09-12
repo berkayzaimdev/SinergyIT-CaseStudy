@@ -17,6 +17,9 @@ services:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
 
+  jenkins:
+    image: jenkins/jenkins:lts
+
 
 volumes:
   sonarqubedb:
