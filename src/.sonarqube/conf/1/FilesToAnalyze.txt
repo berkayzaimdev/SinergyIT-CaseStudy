@@ -1,0 +1,15 @@
+﻿C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Models\Common\IMongoEntity.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Models\Common\MongoEntity.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Models\Product.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Program.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Services\Abstract\IMongoService.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Services\Concrete\MongoService.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\obj\Debug\net8.0\Catalog.API.GlobalUsings.g.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\obj\Debug\net8.0\Catalog.API.AssemblyInfo.cs
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\appsettings.Development.json
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\appsettings.json
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\.dockerignore
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Dockerfile
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\sonar-project.properties
+C:\Users\BERKAY ZAIM\Source\Repos\SinergyIT-CaseStudy\src\Services\Catalog\Catalog.API\Properties\launchSettings.json

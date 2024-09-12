@@ -59,6 +59,13 @@ services:
       - gitea_data:/data
     restart: always
 
+  sonarscanner:
+    container_name: sonarscanner
+    entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./:/app
+    working_dir: /app
+
   jenkins:
     container_name: jenkins
     privileged: true
@@ -83,13 +90,6 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-
-  dotnet-sdk:
-    container_name: dotnet_sdk
-    volumes:
-      - ./:/app
-    working_dir: /app
-
 
 volumes:
   sonarqubedb:
