@@ -1,4 +1,5 @@
 services:
+
   sonarqube:
     image: sonarqube:community
 
@@ -28,6 +29,13 @@ services:
 
   mongo-express:
     image: mongo-express:latest
+
+  reactapp:
+    build:
+      context: ./Client/ecommerce-web-app    
+    ports:
+      - "3722:80"
+    
 
 volumes:
   sonarqubedb:

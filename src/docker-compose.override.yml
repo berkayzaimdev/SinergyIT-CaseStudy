@@ -81,6 +81,7 @@ services:
     restart: always
 
   catalog.api:
+    container_name: catalog.api
     depends_on:
       - catalogdb
     environment:
@@ -95,12 +96,14 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   catalogdb:
+    container_name: catalogdb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
   mongo-express:
+    container_name: mongo-express
     restart: always
     ports:
       - 8081:8081
