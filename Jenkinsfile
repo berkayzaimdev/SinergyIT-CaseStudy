@@ -5,6 +5,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                sh('pwd') 
+                sh('git status')
+                sh('git remote -v')
                 checkout scm
             }
         }
