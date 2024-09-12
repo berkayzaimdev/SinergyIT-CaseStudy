@@ -23,7 +23,7 @@ public class MongoService : IMongoService
 		}
         catch
         {
-			throw new MongoException("Failed to connect to MongoDB");
+			// throw new MongoException("Failed to connect to MongoDB");
 		}
     }
 
