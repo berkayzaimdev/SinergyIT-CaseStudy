@@ -17,6 +17,9 @@ services:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
 
+  dotnet-sdk:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+
   jenkins:
     image: jenkins/jenkins:lts
 
