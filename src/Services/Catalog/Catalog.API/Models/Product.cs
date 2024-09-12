@@ -12,5 +12,5 @@ public class Product : MongoEntity, IMongoEntity
 
 	[BsonGuidRepresentation(MongoDB.Bson.GuidRepresentation.CSharpLegacy)]
 	[BsonElement(Order = 3)]
-	public decimal BrandId { get; set; }
+	public Guid BrandId { get; set; }
 }
