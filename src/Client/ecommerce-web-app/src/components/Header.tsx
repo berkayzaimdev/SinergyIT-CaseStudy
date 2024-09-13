@@ -7,12 +7,10 @@ const Header: React.FC = () => {
   return (
     <Navbar expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">e-Commerce</Navbar.Brand>
+        <Navbar.Brand href="/">e-Commerce</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Products</Nav.Link>
-            <Nav.Link href="#link">Cart</Nav.Link>
             <NavDropdown title="Brands" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Brands</NavDropdown.Item>
               <NavDropdown.Divider />
@@ -28,6 +26,7 @@ const Header: React.FC = () => {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link href="#link">Cart</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -18,7 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   brandId,
 }) => {
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ width: "24rem" }}>
       <Card.Img variant="top" src="https://placehold.co/180x120" />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
