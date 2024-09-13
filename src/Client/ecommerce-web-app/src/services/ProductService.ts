@@ -7,7 +7,7 @@ interface ApiResponse {
   products: Product[];
 }
 
-class CatalogService {
+class ProductService {
   public static async getProducts(): Promise<Product[]> {
     try {
       const response: AxiosResponse<ApiResponse> = await axios.get(API_URL);
@@ -19,4 +19,4 @@ class CatalogService {
   }
 }
 
-export default CatalogService;
+export default ProductService;

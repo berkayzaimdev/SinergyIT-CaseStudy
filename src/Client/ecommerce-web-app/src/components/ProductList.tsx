@@ -1,8 +1,8 @@
 import { Col, Container, Row } from "react-bootstrap";
 import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
-import CatalogService from "../services/CatalogService";
 import { Product } from "../types/Product";
+import ProductService from "../services/ProductService";
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -12,7 +12,7 @@ const ProductList: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await CatalogService.getProducts();
+        const data = await ProductService.getProducts();
         setProducts(data);
       } catch (err) {
         setError("Error fetching products");
