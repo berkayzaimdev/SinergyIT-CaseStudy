@@ -1,9 +1,8 @@
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import "./App.css";
 import "holderjs";
-import BrandProductList from "./components/BrandProductList";
-import ProductList from "./components/ProductList";
-import Layout from "./pages/Layout";
+import ProductList from "./pages/ProductList";
+import BrandProductList from "./pages/BrandProductList";
 
 function App() {
   return (
