@@ -34,12 +34,11 @@ const Header: React.FC = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavDropdown title="Brands" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Brands</NavDropdown.Item>
               {brands.map((brand) => (
                 <>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#">
-                    <a href={brand.id}>{brand.name}</a>
+                  <NavDropdown.Item href={`/${brand.id}/`}>
+                    {brand.name}
                   </NavDropdown.Item>
                 </>
               ))}

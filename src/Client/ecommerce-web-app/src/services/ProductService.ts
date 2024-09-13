@@ -17,6 +17,20 @@ class ProductService {
       throw new Error("Unable to fetch products");
     }
   }
+
+  public static async getProductsByBrandId(
+    brandId: string
+  ): Promise<Product[]> {
+    try {
+      const response: AxiosResponse<ApiResponse> = await axios.get(
+        `${API_URL}${brandId}/`
+      );
+      return response.data.products;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      throw new Error("Unable to fetch products");
+    }
+  }
 }
 
 export default ProductService;

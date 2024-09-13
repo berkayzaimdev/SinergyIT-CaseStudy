@@ -3,9 +3,11 @@ import ProductCard from "../components/ProductCard";
 import { useEffect, useState } from "react";
 import { Product } from "../types/Product";
 import ProductService from "../services/ProductService";
+import { useParams } from "react-router-dom";
 import Header from "./Header";
 
-const ProductList: React.FC = () => {
+const BrandProductList: React.FC = () => {
+  const { brandId } = useParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +15,9 @@ const ProductList: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await ProductService.getProducts();
+        const data = await ProductService.getProductsByBrandId(
+          brandId as string
+        );
         setProducts(data);
       } catch (err) {
         setError("Error fetching products");
@@ -42,6 +46,7 @@ const ProductList: React.FC = () => {
     <>
       <Header></Header>
       <Container>
+        <h1>{brandId}</h1>
         {productChunks.map((chunk, index) => (
           <Row key={index} className="mt-4">
             {chunk.map((product) => (
@@ -62,4 +67,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList;
+export default BrandProductList;
