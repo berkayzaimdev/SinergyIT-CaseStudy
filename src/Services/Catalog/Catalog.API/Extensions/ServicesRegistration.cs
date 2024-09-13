@@ -1,8 +1,5 @@
-﻿using Amazon.Auth.AccessControlPolicy;
-using Bogus;
-using Catalog.API.Models;
+﻿using Bogus;
 using Catalog.API.Services.Concrete;
-using System.Text.Json;
 
 namespace Catalog.API.Extensions;
 
