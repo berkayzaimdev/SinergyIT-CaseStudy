@@ -10,7 +10,16 @@ public static class ServicesRegistration
 {
 	public static IServiceCollection RegisterServices(this IServiceCollection services)
 	{
+		var assembly = typeof(Program).Assembly;
+
+		services.AddMediatR(config =>
+		{
+			config.RegisterServicesFromAssembly(assembly);
+		});
+
 		services.AddCors();
+
+		services.AddCarter();
 
 		services.AddSingleton<IMongoService, MongoService>();
 
@@ -48,7 +57,7 @@ public static class ServicesRegistration
 				.RuleFor(p => p.Price, f => decimal.Parse(f.Commerce.Price()))
 				.RuleFor(p => p.BrandId, f => f.PickRandom(brands).Id);
 
-				var products = productFaker.Generate(10);
+				var products = productFaker.Generate(50);
 
 				await mongoDbService.GetCollection<Product>().InsertManyAsync(products);
 			}
@@ -65,32 +74,7 @@ public static class ApplicationServicesRegistration
 
 		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-		app.MapGet("/", async (IMongoService mongoService) =>
-		{
-
-			var productCollection = mongoService.GetCollection<Product>();
-			var brandCollection = mongoService.GetCollection<Brand>();
-
-
-			var brands = await brandCollection.Find(_ => true).ToListAsync();
-			var brandMap = brands.ToDictionary(b => b.Id, b => b.Name);
-
-			var products = await productCollection.Find(_ => true).ToListAsync();
-
-			var result = products.Select(product =>
-			{
-				var brandname = brandMap.TryGetValue(product.BrandId, out var name) ? name : "Unknown";
-
-				return new
-				{
-					product.Id,
-					product.BrandId,
-					Brandname = brandname
-				};
-			});
-
-			return Results.Ok(result);
-		});
+		app.MapCarter();
 
 		app.Run();
 

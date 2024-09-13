@@ -2,3 +2,9 @@
 global using MongoDB.Bson.Serialization.Attributes;
 global using Catalog.API.Services.Abstract;
 global using MongoDB.Driver;
+global using Shared.CQRS.Handlers;
+global using Shared.CQRS.Models;
+global using Catalog.API.Models;
+global using Carter;
+global using MediatR;
+global using Mapster;

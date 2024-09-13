@@ -1,4 +1,6 @@
-﻿namespace Shared.CQRS.Handlers;
+﻿using MediatR;
+
+namespace Shared.CQRS.Handlers;
 
 public interface ICommandHandler<in TCommand> : ICommandHandler<TCommand, Unit>
 	where TCommand : ICommand<Unit>, new()
