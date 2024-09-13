@@ -2,8 +2,30 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Brand } from "../types/Brand";
+import BrandService from "../services/BrandService";
+import { useState, useEffect } from "react";
 
 const Header: React.FC = () => {
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const data = await BrandService.getBrands();
+        setBrands(data);
+      } catch (err) {
+        setError("Error fetching brands");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
   return (
     <Navbar expand="lg" bg="dark" variant="dark">
       <Container>
@@ -13,18 +35,14 @@ const Header: React.FC = () => {
           <Nav className="me-auto">
             <NavDropdown title="Brands" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Brands</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              {brands.map((brand) => (
+                <>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#">
+                    <a href={brand.id}>{brand.name}</a>
+                  </NavDropdown.Item>
+                </>
+              ))}
             </NavDropdown>
             <Nav.Link href="#link">Cart</Nav.Link>
           </Nav>

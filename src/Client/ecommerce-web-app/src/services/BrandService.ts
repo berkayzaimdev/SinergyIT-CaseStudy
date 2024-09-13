@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Brand } from "../types/Brand";
 
-const API_URL = "https://localhost:6060/";
+const API_URL = "https://localhost:6060/brands/";
 
 interface ApiResponse {
   brands: Brand[];

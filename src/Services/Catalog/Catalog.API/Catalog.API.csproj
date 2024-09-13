@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Brands\GetAll\" />
     <Folder Include="Features\Products\GetAllByBrandId\" />
   </ItemGroup>
 

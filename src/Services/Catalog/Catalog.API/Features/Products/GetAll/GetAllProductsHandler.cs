@@ -1,7 +1,4 @@
-﻿using Catalog.API.Models;
-using Catalog.API.Services.Concrete;
-
-namespace Catalog.API.Features.Products.GetAll;
+﻿namespace Catalog.API.Features.Products.GetAll;
 
 public record GetAllProductsQuery() : IQuery<GetAllProductsResult>;
 public record GetAllProductsResult(IEnumerable<GetAllProductsDto> Products);

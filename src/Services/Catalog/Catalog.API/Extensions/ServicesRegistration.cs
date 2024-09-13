@@ -32,12 +32,7 @@ public static class ServicesRegistration
 	{
 		using var scope = services.BuildServiceProvider().CreateScope();
 
-		var mongoDbService = scope.ServiceProvider.GetRequiredService<IMongoService>();
-
-        if (mongoDbService is null)
-        {
-			throw new MongoException("Failed to connect to MongoDB");
-		}
+		var mongoDbService = scope.ServiceProvider.GetRequiredService<IMongoService>() ?? throw new MongoException("Failed to connect to MongoDB");
 
 		if (!await (await mongoDbService.GetCollection<Brand>().FindAsync(x => true)).AnyAsync())
 		{
@@ -71,7 +66,6 @@ public static class ApplicationServicesRegistration
 {
 	public static WebApplication RegisterApplicationServices(this WebApplication app)
 	{
-
 		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 		app.MapCarter();
