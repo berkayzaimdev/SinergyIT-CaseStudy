@@ -65,12 +65,31 @@ public static class ApplicationServicesRegistration
 
 		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-		app.MapGet("/", (IMongoService mongoService) =>
+		app.MapGet("/", async (IMongoService mongoService) =>
 		{
-			var collection = mongoService.GetCollection<Product>();
+
+			var productCollection = mongoService.GetCollection<Product>();
+			var brandCollection = mongoService.GetCollection<Brand>();
 
 
-			return Results.Ok(collection.Find(_ => true).ToEnumerable());
+			var brands = await brandCollection.Find(_ => true).ToListAsync();
+			var brandMap = brands.ToDictionary(b => b.Id, b => b.Name);
+
+			var products = await productCollection.Find(_ => true).ToListAsync();
+
+			var result = products.Select(product =>
+			{
+				var brandname = brandMap.TryGetValue(product.BrandId, out var name) ? name : "Unknown";
+
+				return new
+				{
+					product.Id,
+					product.BrandId,
+					Brandname = brandname
+				};
+			});
+
+			return Results.Ok(result);
 		});
 
 		app.Run();
