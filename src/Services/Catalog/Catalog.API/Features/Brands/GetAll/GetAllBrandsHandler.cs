@@ -17,7 +17,7 @@ public class GetAllBrandsHandler
 
 		var brands = brandCollection.Find(_ => true);
 
-		if (brands is null || (await brands.CountDocumentsAsync(cancellationToken)) == 0)
+		if (brands is null || await brands.CountDocumentsAsync(cancellationToken) == 0)
 		{
 			return new GetAllBrandsResult([]);
 		}
