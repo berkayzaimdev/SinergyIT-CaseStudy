@@ -1,6 +1,8 @@
-﻿using Bogus;
+﻿using Amazon.Auth.AccessControlPolicy;
+using Bogus;
 using Catalog.API.Models;
 using Catalog.API.Services.Concrete;
+using System.Text.Json;
 
 namespace Catalog.API.Extensions;
 
@@ -8,6 +10,8 @@ public static class ServicesRegistration
 {
 	public static IServiceCollection RegisterServices(this IServiceCollection services)
 	{
+		services.AddCors();
+
 		services.AddSingleton<IMongoService, MongoService>();
 
 		services = SeedData(services).Result;
@@ -58,10 +62,15 @@ public static class ApplicationServicesRegistration
 {
 	public static WebApplication RegisterApplicationServices(this WebApplication app)
 	{
+
+		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
 		app.MapGet("/", (IMongoService mongoService) =>
 		{
-			var collection = mongoService.GetCollection<Brand>();
-			return Results.Ok("test");
+			var collection = mongoService.GetCollection<Product>();
+
+
+			return Results.Ok(collection.Find(_ => true).ToEnumerable());
 		});
 
 		app.Run();

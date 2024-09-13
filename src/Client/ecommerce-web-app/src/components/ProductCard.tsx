@@ -1,16 +1,37 @@
-import { Button, Card } from "react-bootstrap";
+import React from "react";
+import { Button, Card, Container } from "react-bootstrap";
+import { FaCartPlus } from "react-icons/fa";
 
-const ProductCard: React.FC = () => {
+interface ProductCardProps {
+  id: string;
+  title: string;
+  price: number;
+  brandName: string;
+  brandId: string;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  id,
+  title,
+  price,
+  brandName,
+  brandId,
+}) => {
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
+      <Card.Img variant="top" src="https://placehold.co/180x120" />
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title>{title}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          Price: ${price.toFixed(2)}
+          <br />
+          Brand: {brandName}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Container className="d-flex justify-content-center mt-4">
+          <Button variant="primary">
+            <FaCartPlus /> Add to Cart
+          </Button>
+        </Container>
       </Card.Body>
     </Card>
   );
