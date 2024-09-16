@@ -10,7 +10,8 @@ const ProductList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  /* 
+    useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await ProductService.getProducts();
@@ -24,9 +25,13 @@ const ProductList: React.FC = () => {
 
     fetchProducts();
   }, []);
+  */
+  useEffect(() => setProducts([]));
 
-  if (loading) return <p>Loading...</p>;
+  /*
+    if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+  */
 
   const chunkArray = (array: Product[], size: number): Product[][] => {
     const result: Product[][] = [];

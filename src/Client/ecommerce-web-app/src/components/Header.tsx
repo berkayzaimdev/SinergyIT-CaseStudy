@@ -5,6 +5,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Brand } from "../types/Brand";
 import BrandService from "../services/BrandService";
 import { useState, useEffect } from "react";
+import { FaUser } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -30,6 +31,7 @@ const Header: React.FC = () => {
     <Navbar expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand href="/">e-Commerce</Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -44,7 +46,17 @@ const Header: React.FC = () => {
               ))}
             </NavDropdown>
             <Nav.Link href="#link">Cart</Nav.Link>
+            <Nav.Link href="#link" className="ml-auto">
+              Cart
+            </Nav.Link>
           </Nav>
+        </Navbar.Collapse>
+
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            Login
+            <FaUser />
+          </Navbar.Text>
         </Navbar.Collapse>
       </Container>
     </Navbar>
