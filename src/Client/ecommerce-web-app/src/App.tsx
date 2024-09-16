@@ -3,6 +3,8 @@ import "./App.css";
 import "holderjs";
 import ProductList from "./pages/ProductList";
 import BrandProductList from "./pages/BrandProductList";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
         <Routes>
           <Route path="/" Component={ProductList} />
           <Route path="/:brandId" Component={BrandProductList} />
+          <Route path="/login" Component={Login} />
+          <Route path="/register" Component={Register} />
         </Routes>
       </BrowserRouter>
     </>

@@ -5,7 +5,13 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Brand } from "../types/Brand";
 import BrandService from "../services/BrandService";
 import { useState, useEffect } from "react";
-import { FaUser } from "react-icons/fa";
+import {
+  FaLock,
+  FaSign,
+  FaSignInAlt,
+  FaUser,
+  FaUserPlus,
+} from "react-icons/fa";
 
 const Header: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -46,17 +52,21 @@ const Header: React.FC = () => {
               ))}
             </NavDropdown>
             <Nav.Link href="#link">Cart</Nav.Link>
-            <Nav.Link href="#link" className="ml-auto">
-              Cart
-            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            Login
-            <FaUser />
-          </Navbar.Text>
+          <Nav>
+            <Nav.Link href="/login">
+              Login
+              <FaSignInAlt className="mx-1" />
+            </Nav.Link>
+
+            <Nav.Link href="/register" className="mx-1">
+              Register
+              <FaUserPlus className="mx-1" />
+            </Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
