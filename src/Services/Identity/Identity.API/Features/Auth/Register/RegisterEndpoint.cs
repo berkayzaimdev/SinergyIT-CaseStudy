@@ -1,6 +1,6 @@
 ﻿namespace Identity.API.Features.Auth.Register;
 
-public class RegisterEndpoint : ICarterModule
+public class RegisterEndpoint 
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

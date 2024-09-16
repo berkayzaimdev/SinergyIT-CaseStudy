@@ -1,3 +1,5 @@
+version: '3.4'
+
 services:
 
   sonarqube:
@@ -30,12 +32,20 @@ services:
   mongo-express:
     image: mongo-express:latest
 
+  identitydb:
+    image: postgres:latest
+
   reactapp:
     build:
       context: ./Client/ecommerce-web-app    
     ports:
       - "3722:80"
-    
+
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile
 
 volumes:
   sonarqubedb:
@@ -44,3 +54,5 @@ volumes:
   sonarqube_extensions:
   sonarqube_logs:
   gitea_data:
+  jenkins_home:
+  postgres_identity:  
