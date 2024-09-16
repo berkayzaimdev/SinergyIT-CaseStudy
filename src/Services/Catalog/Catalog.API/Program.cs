@@ -7,3 +7,5 @@ builder.Services.RegisterServices();
 var app = builder.Build();
 
 app.RegisterApplicationServices();
+
+// TODO: will try to fix launch browser problem

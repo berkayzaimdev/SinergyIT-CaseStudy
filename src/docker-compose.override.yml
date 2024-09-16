@@ -112,13 +112,13 @@ services:
 
   catalog.api:
     container_name: catalog.api
-    depends_on:
-      - catalogdb
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__MongoDB=mongodb://root:example@catalogdb:27017/
+    depends_on:
+      - catalogdb
     ports:
       - "6000:8080"
       - "6060:8081"
@@ -127,6 +127,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   identity.api:
+    container_name: identity.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080

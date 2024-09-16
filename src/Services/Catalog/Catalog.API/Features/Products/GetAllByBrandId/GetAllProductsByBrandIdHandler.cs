@@ -16,7 +16,13 @@ public class GetAllProductsByBrandIdHandler
 {
 	public async Task<GetAllProductsByBrandIdResult> Handle(GetAllProductsByBrandIdQuery request, CancellationToken cancellationToken)
 	{
-		var products = mongoService.GetCollection<Product>().Find(product => product.BrandId.Equals(Guid.Parse(request.BrandId)));
+		if (!Guid.TryParse(request.BrandId, out var brandId))
+		{
+			throw new ArgumentException("Geçersiz GUID formatı", nameof(request.BrandId));
+		}
+
+		var products = mongoService.GetCollection<Product>()
+			.Find(product => product.BrandId.Equals(brandId));
 
 		var brandCollection = mongoService.GetCollection<Brand>();
 		var brands = await brandCollection.Find(_ => true).ToListAsync();

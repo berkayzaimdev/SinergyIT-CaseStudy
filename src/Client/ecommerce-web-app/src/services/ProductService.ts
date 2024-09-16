@@ -23,7 +23,7 @@ class ProductService {
   ): Promise<Product[]> {
     try {
       const response: AxiosResponse<ApiResponse> = await axios.get(
-        `${API_URL}${brandId}/`
+        `brands/${API_URL}${brandId}/products`
       );
       return response.data.products;
     } catch (error) {

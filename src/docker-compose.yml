@@ -20,12 +20,6 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
 
-  catalog.api:
-    image: ${DOCKER_REGISTRY-}catalogapi
-    build:
-      context: .
-      dockerfile: Services/Catalog/Catalog.API/Dockerfile
-
   catalogdb:
     image: mongo:latest
 
@@ -40,6 +34,12 @@ services:
       context: ./Client/ecommerce-web-app    
     ports:
       - "3722:80"
+
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi

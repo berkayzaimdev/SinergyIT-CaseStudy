@@ -6,7 +6,7 @@ public class GetAllProductsByBrandIdEndpoint : ICarterModule
 {
 	public void AddRoutes(IEndpointRouteBuilder app)
 	{
-		app.MapGet("/{brandId}/", async (string brandId, ISender _sender) =>
+		app.MapGet("brands/{brandId}/products", async (string brandId, ISender _sender) =>
 		{
 			var result = await _sender.Send(new GetAllProductsByBrandIdQuery(brandId));
 
