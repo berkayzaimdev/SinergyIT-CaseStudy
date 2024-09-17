@@ -22,10 +22,10 @@ public class IdentityContext : IdentityDbContext<ApplicationUser>
 		{
 			PasswordHasher<ApplicationUser> hasher = new();
 
-			var user1 = new ApplicationUser() { UserName = "johndoe", FirstName = "John", LastName = "Doe" };
+			var user1 = new ApplicationUser() { UserName = "johndoe", NormalizedUserName="JOHNDOE", FirstName = "John", LastName = "Doe" };
 			user1.PasswordHash = hasher.HashPassword(user1, "1");
 
-			var user2 = new ApplicationUser() { UserName = "richardroe", FirstName = "Richard", LastName = "Roe" };
+			var user2 = new ApplicationUser() { UserName = "richardroe", NormalizedUserName = "RICHARDROE", FirstName = "Richard", LastName = "Roe" };
 			user2.PasswordHash = hasher.HashPassword(user2, "2");
 
 			return [

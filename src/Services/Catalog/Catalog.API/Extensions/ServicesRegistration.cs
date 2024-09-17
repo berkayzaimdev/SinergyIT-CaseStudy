@@ -1,7 +1,4 @@
-﻿using Bogus;
-using Catalog.API.Services.Concrete;
-
-namespace Catalog.API.Extensions;
+﻿namespace Catalog.API.Extensions;
 
 public static class ServicesRegistration
 {
@@ -66,8 +63,6 @@ public static class ApplicationServicesRegistration
 		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 		app.MapCarter();
-
-		app.Run();
 
 		return app;
 	}

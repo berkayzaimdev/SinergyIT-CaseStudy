@@ -8,3 +8,5 @@ global using Catalog.API.Models;
 global using Carter;
 global using MediatR;
 global using Mapster;
+global using Bogus;
+global using Catalog.API.Services.Concrete;

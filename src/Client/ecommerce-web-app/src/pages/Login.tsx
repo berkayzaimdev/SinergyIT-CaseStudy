@@ -1,6 +1,8 @@
 import { Button, Container, Form } from "react-bootstrap";
 import Header from "../components/Header";
 import { ChangeEvent, FormEvent, useState } from "react";
+import AuthService, { LoginRequest } from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   username: string;
@@ -8,34 +10,25 @@ interface FormData {
 }
 
 function Login() {
-  const [formData, setFormData] = useState<FormData>({
-    username: "",
-    password: "",
-  });
+  const [userName, setUserName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  const handleSubmit = async () => {
+    const request: LoginRequest = {
+      userName,
+      password,
+    };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    var errorMessage = "";
-
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value.trim() === "" || value == null) {
-        console.log(`${key} değeri boş bırakılamaz!`);
-        errorMessage += `${key} değeri boş bırakılamaz!\n`;
+    try {
+      const response = await AuthService.login(request);
+      localStorage.setItem("accessToken", response.accessToken);
+      alert("Giriş başarılı!");
+      navigate("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        alert(err.message);
       }
-    });
-
-    if (!(errorMessage.trim() === "" || errorMessage == null)) {
-      alert(errorMessage);
-      e.preventDefault();
-    } else {
-      e.preventDefault();
     }
   };
 
@@ -43,18 +36,15 @@ function Login() {
     <>
       <Header></Header>
       <Container className="d-flex justify-content-center align-items-center mt-5">
-        <Form
-          onSubmit={handleSubmit}
-          style={{ maxWidth: "500px", width: "100%" }}
-        >
+        <Form style={{ maxWidth: "500px", width: "100%" }}>
           <Form.Group className="mb-3" controlId="username">
             <Form.Label>Username</Form.Label>
             <Form.Control
               type="text"
-              name="username"
               placeholder="Enter username"
-              value={formData.username}
-              onChange={handleChange}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              required
             />
           </Form.Group>
 
@@ -62,14 +52,14 @@ function Login() {
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              name="password"
               placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="button" onClick={handleSubmit}>
             Login
           </Button>
         </Form>

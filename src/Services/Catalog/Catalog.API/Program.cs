@@ -8,4 +8,6 @@ var app = builder.Build();
 
 app.RegisterApplicationServices();
 
+app.Run();
+
 // TODO: will try to fix launch browser problem

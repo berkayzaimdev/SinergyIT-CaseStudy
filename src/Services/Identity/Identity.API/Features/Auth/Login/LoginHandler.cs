@@ -1,11 +1,9 @@
-﻿using Identity.API.Models;
-
-namespace Identity.API.Features.Auth.Login;
+﻿namespace Identity.API.Features.Auth.Login;
 
 public record LoginCommand
 (
-	string? UserName,
-	string? Password
+	string UserName,
+	string Password
 ) : ICommand<LoginResult>;
 
 public class LoginResult
@@ -16,22 +14,21 @@ public class LoginResult
 }
 
 public class LoginHandler
-	(UserManager<ApplicationUser> userManager)
+	(ITokenService tokenService, UserManager<ApplicationUser> userManager)
 	: ICommandHandler<LoginCommand, LoginResult>
 {
 	public async Task<LoginResult> Handle(LoginCommand command, CancellationToken cancellationToken)
 	{
-		if (string.IsNullOrEmpty(command.UserName) || string.IsNullOrEmpty(command.Password))
-		{
-			throw new ArgumentException(nameof(command));
-		}
-
 		var user = await userManager.FindByNameAsync(command.UserName);
 
         if (user is null)
         {
-			throw new ArgumentException(nameof(command));
-        }
+			return new LoginResult
+			{
+				IsSuccess = false,
+				Errors = ["Girdiğiniz username'a sahip bir kullanıcı bulunamadı!"]
+			};
+		}
 
         bool succeeded = await userManager.CheckPasswordAsync(user, command.Password);
 
@@ -40,16 +37,27 @@ public class LoginHandler
 			return new LoginResult
 			{
 				IsSuccess = false,
-				// Errors = identityResult.Errors
+				Errors = ["Lütfen doğru bir username-şifre kombinasyonu giriniz!"]
 			};
 		}
 
-		string token = string.Empty;
+		var claims = GetTokenClaims(user);
+
+		string token = tokenService.GenerateAccessToken(claims);
 
 		return new LoginResult
 		{
 			IsSuccess = true,
-			Token = token,
+			Token = token
 		};
+	}
+
+	private Claim[] GetTokenClaims(ApplicationUser user)
+	{
+		return
+		[
+			new Claim(ClaimTypes.NameIdentifier, user.Id),
+			new Claim(ClaimTypes.Name, user.UserName),
+		];
 	}
 }

@@ -5,13 +5,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Brand } from "../types/Brand";
 import BrandService from "../services/BrandService";
 import { useState, useEffect } from "react";
-import {
-  FaLock,
-  FaSign,
-  FaSignInAlt,
-  FaUser,
-  FaUserPlus,
-} from "react-icons/fa";
+import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -43,12 +37,13 @@ const Header: React.FC = () => {
           <Nav className="me-auto">
             <NavDropdown title="Brands" id="basic-nav-dropdown">
               {brands.map((brand) => (
-                <>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href={`/${brand.id}/`}>
-                    {brand.name}
-                  </NavDropdown.Item>
-                </>
+                <NavDropdown.Item
+                  className="border"
+                  key={`${brand.id}`}
+                  href={`/${brand.id}/`}
+                >
+                  {brand.name}
+                </NavDropdown.Item>
               ))}
             </NavDropdown>
             <Nav.Link href="#link">Cart</Nav.Link>

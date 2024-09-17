@@ -1,5 +1,5 @@
-﻿using Identity.API.Models;
-using Identity.API.Persistence;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 
 namespace Identity.API.Extensions;
 
@@ -9,10 +9,28 @@ public static class ServicesRegistration
 	{
 		var assembly = typeof(Program).Assembly;
 
+		services.RegisterDatabase(configuration);
+
+		services.RegisterJwt(configuration);
+
+		services.AddMediatR(config =>
+		{
+			config.RegisterServicesFromAssembly(assembly);
+		});
+
+		services.AddCarter();
+
+		services.AddCors();
+
+		return services;
+	}
+
+	private static IServiceCollection RegisterDatabase(this IServiceCollection services, IConfiguration configuration)
+	{
 		string? connectionString = configuration.GetConnectionString("IdentityDb");
 
-        if (string.IsNullOrEmpty(connectionString))
-        {
+		if (string.IsNullOrEmpty(connectionString))
+		{
 			throw new ArgumentException("IdentityDb connection string is not configured");
 		}
 
@@ -21,14 +39,35 @@ public static class ServicesRegistration
 
 		services.AddDbContext<IdentityContext>(opts => opts.UseNpgsql(connectionString));
 
-		services.AddMediatR(config =>
+		return services;
+	}
+
+	private static IServiceCollection RegisterJwt(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddScoped<ITokenService, TokenService>();
+
+		services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+		services.AddAuthentication(options =>
 		{
-			config.RegisterServicesFromAssembly(assembly);
+			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+		}).AddJwtBearer(o =>
+		{
+			var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>() ?? throw new ArgumentException("JWT settings are not configured");
+
+			o.TokenValidationParameters = new TokenValidationParameters
+			{
+				ValidIssuer = jwtSettings.Issuer,
+				ValidAudience = jwtSettings.Audience,
+				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+				ValidateIssuer = true,
+				ValidateAudience = true,
+				ValidateLifetime = true,
+				ValidateIssuerSigningKey = true
+			};
 		});
-
-		//services.AddCarter();
-
-		services.AddCors();
 
 		return services;
 	}
@@ -40,11 +79,11 @@ public static class ApplicationServicesRegistration
 	{
 		app.ApplyMigration();
 
-		//app.MapCarter();
+		app.MapCarter();
+
+		app.UseAuthentication();
 
 		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-
-		app.Run();
 
 		return app;
 	}
