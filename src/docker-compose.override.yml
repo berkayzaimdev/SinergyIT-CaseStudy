@@ -80,6 +80,12 @@ services:
       - /usr/bin/docker:/usr/bin/docker
     restart: always
 
+  redis:
+    container_name: redis
+    restart: always
+    ports:
+        - "6379:6379"
+
   catalogdb:
     container_name: catalogdb
     restart: always

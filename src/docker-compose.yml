@@ -20,6 +20,9 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
 
+  redis:
+    image: redis:latest
+
   catalogdb:
     image: mongo:latest
 
