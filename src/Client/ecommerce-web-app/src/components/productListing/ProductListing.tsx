@@ -1,8 +1,9 @@
-import { Col, Row } from "react-bootstrap";
+import { Col, Pagination, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Product } from "../../types/Product";
 import ProductService from "../../services/ProductService";
 import ProductCard from "./ProductCard";
+import PaginationArea from "./Pagination";
 
 interface ProductListingProps {
   brandId?: string | undefined;
@@ -13,26 +14,35 @@ function ProductListing({ brandId }: ProductListingProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let data;
-        if (brandId !== undefined) {
-          console.log("brandid:", brandId);
-          data = await ProductService.getProductsByBrandId(brandId);
-        } else {
-          data = await ProductService.getProducts();
-        }
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize] = useState<number>(6);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-        setProducts(data);
-      } catch (err) {
-        setError("Error fetching products");
-      } finally {
-        setLoading(false);
+  const fetchProducts = async (page: number, pageSize: number) => {
+    try {
+      let data;
+
+      if (brandId !== undefined) {
+        data = await ProductService.getProductsByBrandId(
+          brandId,
+          page,
+          pageSize
+        );
+      } else {
+        data = await ProductService.getProducts(page, pageSize);
       }
-    };
 
-    fetchProducts();
+      setTotalPages(data.paginationResponse.totalPages);
+      setProducts(data.products);
+    } catch (err) {
+      setError("Error fetching products");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(currentPage, pageSize);
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -53,7 +63,11 @@ function ProductListing({ brandId }: ProductListingProps) {
       {productChunks.map((chunk, index) => (
         <Row key={index} className="mt-4">
           {chunk.map((product) => (
-            <Col key={product.id} md={4} className="mb-4">
+            <Col
+              key={product.id}
+              md={4}
+              className="d-flex justify-content-center mb-4"
+            >
               <ProductCard
                 id={product.id}
                 title={product.name}
@@ -65,6 +79,19 @@ function ProductListing({ brandId }: ProductListingProps) {
           ))}
         </Row>
       ))}
+
+      {totalPages ? (
+        <PaginationArea
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page: number) => {
+            setCurrentPage(page);
+            fetchProducts(page, pageSize);
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

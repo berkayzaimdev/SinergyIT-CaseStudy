@@ -1,8 +1,22 @@
 ﻿namespace Catalog.API.Models.Pagination;
 
-public record PaginationResponse
-(
-	int Page = 0,
-	int TotalPages = 0,
-	int TotalCount = 0
-);
+public class PaginationResponse
+{
+    public int PageNumber { get; set; } = 0;
+    public int PageSize { get; set; } = 0;
+    public int TotalPages { get; set; } = 0;
+    public int TotalCount { get; private set; } = 0;
+
+    public PaginationResponse(int pageNumber, int pageSize, int totalPages)
+    {
+        PageNumber = pageNumber;
+		PageSize = pageSize;
+        TotalPages = totalPages;
+        TotalCount = pageSize*totalPages;
+    }
+
+    public PaginationResponse()
+    {
+        
+    }
+}

@@ -1,7 +1,7 @@
 ﻿namespace Catalog.API.Models.Pagination;
 
-public record PaginationRequest
-(
-	int Page = 0,
-	int PageSize = 0
-);
+public class PaginationRequest
+{
+	public int PageNumber { get; set; }
+	public int PageSize { get; set; }
+}

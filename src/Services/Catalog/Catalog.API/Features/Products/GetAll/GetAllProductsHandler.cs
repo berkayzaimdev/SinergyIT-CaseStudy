@@ -1,7 +1,11 @@
-﻿namespace Catalog.API.Features.Products.GetAll;
+﻿using Catalog.API.Models.Pagination;
 
-public record GetAllProductsQuery() : IQuery<GetAllProductsResult>;
-public record GetAllProductsResult(IEnumerable<GetAllProductsDto> Products);
+namespace Catalog.API.Features.Products.GetAll;
+
+public record GetAllProductsQuery(PaginationRequest PaginationRequest) : IQuery<GetAllProductsResult>;
+public record GetAllProductsResult(
+	IEnumerable<GetAllProductsDto> Products,
+	PaginationResponse PaginationResponse);
 public record GetAllProductsDto(
 	string Id,
 	string Name,
@@ -16,34 +20,41 @@ public class GetAllProductsHandler
 {
 	public async Task<GetAllProductsResult> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
 	{
-		var productCollection = mongoService.GetCollection<Product>();
 		var brandCollection = mongoService.GetCollection<Brand>();
-
-
 		var brands = await brandCollection.Find(_ => true).ToListAsync();
 		var brandMap = brands.ToDictionary(b => b.Id, b => b.Name);
 
-		var products = await productCollection.Find(_ => true).ToListAsync();
+		var products = mongoService.GetCollection<Product>()
+			.Find(_ => true);
 
-        if (products is null || products.Count == 0)
+		var productsCount = await products.CountDocumentsAsync(cancellationToken);
+
+		if (products is null || productsCount == 0)
         {
-			return new GetAllProductsResult(Enumerable.Empty<GetAllProductsDto>());
+			return new GetAllProductsResult(Enumerable.Empty<GetAllProductsDto>(), new());
         }
 
-        var result = products.Select(product =>
-		{
-			var brandname = brandMap.TryGetValue(product.BrandId, out var name) ? name : "Unknown";
+        var result = products
+			.Skip((request.PaginationRequest.PageNumber - 1) * request.PaginationRequest.PageSize)
+			.Limit(request.PaginationRequest.PageSize)
+			.ToEnumerable(cancellationToken)
+			.Select(product =>
+			{
+				var brandname = brandMap.TryGetValue(product.BrandId, out var name) ? name : "Unknown";
 
-			return new GetAllProductsDto
-			(
-				product.Id.ToString(),
-				product.Name,
-				product.Price,
-				product.BrandId.ToString(),
-				brandname
-			);
-		});
+				return new GetAllProductsDto
+				(
+					product.Id.ToString(),
+					product.Name,
+					product.Price,
+					product.BrandId.ToString(),
+					brandname
+				);
+			});
 
-		return new GetAllProductsResult(result);
+		return new GetAllProductsResult(result, new(
+			request.PaginationRequest.PageNumber,
+			request.PaginationRequest.PageSize,
+			(int)Math.Round(productsCount / (double)request.PaginationRequest.PageSize)));
 	}
 }
