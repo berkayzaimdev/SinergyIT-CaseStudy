@@ -18,14 +18,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
   brandId,
 }) => {
   return (
-    <Card style={{ width: "24rem" }}>
+    <Card style={{ width: "20rem" }}>
       <Card.Img variant="top" src="https://placehold.co/180x120" />
       <Card.Body>
-        <Card.Title>{title}</Card.Title>
+        <Card.Title className="d-flex justify-content-center">
+          {title}
+        </Card.Title>
         <Card.Text>
-          Price: ${price.toFixed(2)}
+          <b>Price:</b> ${price.toFixed(2)}
           <br />
-          Brand: {brandName}
+          <b>Brand:</b> {brandName}
         </Card.Text>
         <Container className="d-flex justify-content-center mt-4">
           <Button variant="primary">

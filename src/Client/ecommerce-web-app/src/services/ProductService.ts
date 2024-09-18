@@ -23,8 +23,9 @@ class ProductService {
     brandId: string
   ): Promise<Product[]> {
     try {
+      console.log("brandid:", brandId);
       const response: AxiosResponse<ApiResponse> = await axios.get(
-        `brands/${API_URL}${brandId}/products`
+        `${API_URL}brands/${brandId}/products`
       );
       return response.data.products;
     } catch (error) {

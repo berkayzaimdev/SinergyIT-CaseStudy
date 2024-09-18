@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Alert, Button, Container, Form } from "react-bootstrap";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 
 interface FormData {
   username: string;
