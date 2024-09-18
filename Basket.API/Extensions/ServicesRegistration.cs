@@ -2,13 +2,18 @@
 
 public static class ServicesRegistration
 {
-	public static IServiceCollection RegisterServices(this IServiceCollection services)
+	public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		var assembly = typeof(Program).Assembly;
 
 		services.AddMediatR(config =>
 		{
 			config.RegisterServicesFromAssembly(assembly);
+		});
+
+		services.AddStackExchangeRedisCache(options =>
+		{
+			options.Configuration = configuration.GetConnectionString("Redis");
 		});
 
 		services.AddCors();

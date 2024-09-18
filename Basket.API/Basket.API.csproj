@@ -7,15 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Carter" Version="8.1.0" />
+    <PackageReference Include="Carter" Version="8.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\Services\Catalog\Catalog.API\Catalog.API.csproj" />
     <ProjectReference Include="..\src\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Basket\AddToBasket\" />
     <Folder Include="Features\Basket\GetBasket\" />
     <Folder Include="Features\Basket\DeleteBasket\" />
   </ItemGroup>

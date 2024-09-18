@@ -49,6 +49,17 @@ public static class ServicesRegistration
 				var products = productFaker.Generate(50);
 
 				await mongoDbService.GetCollection<Product>().InsertManyAsync(products);
+
+				if (!await (await mongoDbService.GetCollection<Stock>().FindAsync(x => true)).AnyAsync())
+				{
+					var stocks = products.Select(p => new Stock
+					{
+						Id = p.Id,
+						Count = (int) new Random().NextInt64(1,100)
+					}).ToList();
+
+					await mongoDbService.GetCollection<Stock>().InsertManyAsync(stocks);
+				}
 			}
 		}
 
