@@ -20,7 +20,6 @@ public static class ServicesRegistration
 
 		services.AddCarter();
 
-		//services.AddSingleton<IMongoService, MongoService>();
 		return services;
 	}
 }

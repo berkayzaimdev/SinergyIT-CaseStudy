@@ -23,6 +23,9 @@ services:
   redis:
     image: redis:latest
 
+  rabbitmq:
+    image: rabbitmq:latest
+
   catalogdb:
     image: mongo:latest
 
@@ -50,6 +53,12 @@ services:
       context: .
       dockerfile: Services/Identity/Identity.API/Dockerfile
 
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+
 volumes:
   sonarqubedb:
   giteadb:
@@ -59,3 +68,4 @@ volumes:
   gitea_data:
   jenkins_home:
   postgres_identity:  
+
