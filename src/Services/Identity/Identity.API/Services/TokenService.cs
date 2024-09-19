@@ -1,4 +1,6 @@
-﻿namespace Identity.API.Services;
+﻿using Shared;
+
+namespace Identity.API.Services;
 
 public class TokenService : ITokenService
 {

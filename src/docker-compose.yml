@@ -36,6 +36,7 @@ services:
     image: postgres:latest
 
   reactapp:
+    container_name: reactapp
     build:
       context: ./Client/ecommerce-web-app    
     ports:

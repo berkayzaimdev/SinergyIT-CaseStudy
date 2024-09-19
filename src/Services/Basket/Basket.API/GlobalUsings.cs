@@ -3,3 +3,7 @@ global using Shared.CQRS.Models;
 global using Carter;
 global using MediatR;
 global using Mapster;
+global using MassTransit;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Shared.Events.Basket;

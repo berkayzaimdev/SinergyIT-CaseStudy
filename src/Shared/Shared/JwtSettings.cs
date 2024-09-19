@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Settings;
+﻿namespace Shared;
 
 public class JwtSettings
 {

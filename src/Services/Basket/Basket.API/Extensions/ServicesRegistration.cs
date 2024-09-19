@@ -1,4 +1,9 @@
-﻿namespace Basket.API.Extensions;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Shared;
+using System.Text;
+
+namespace Basket.API.Extensions;
 
 public static class ServicesRegistration
 {
@@ -20,6 +25,42 @@ public static class ServicesRegistration
 
 		services.AddCarter();
 
+		services.RegisterJwt(configuration);
+
+		services.AddControllers();
+
+		services.AddHttpContextAccessor();
+
+		return services;
+	}
+
+	private static IServiceCollection RegisterJwt(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+		services.AddAuthorization();
+
+		services.AddAuthentication(options =>
+		{
+			options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+		}).AddJwtBearer(o =>
+		{
+			var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>() ?? throw new ArgumentException("JWT settings are not configured");
+
+			o.TokenValidationParameters = new TokenValidationParameters
+			{
+				ValidIssuer = jwtSettings.Issuer,
+				ValidAudience = jwtSettings.Audience,
+				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+				ValidateIssuer = true,
+				ValidateAudience = true,
+				ValidateLifetime = true,
+				ValidateIssuerSigningKey = true
+			};
+		});
+
 		return services;
 	}
 }
@@ -30,7 +71,15 @@ public static class ApplicationServicesRegistration
 	{
 		app.UseCors(opts => opts.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
+		app.UseRouting();
+
 		app.MapCarter();
+
+		app.MapControllers();
+
+		app.UseAuthentication();
+
+		app.UseAuthorization();
 
 		return app;
 	}

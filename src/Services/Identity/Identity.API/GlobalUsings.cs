@@ -10,7 +10,6 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
 global using System.Text;
-global using Identity.API.Settings;
 global using Microsoft.Extensions.Options;
 global using Identity.API.Models;
 global using Identity.API.Persistence;
