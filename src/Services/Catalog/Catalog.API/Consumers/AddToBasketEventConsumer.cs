@@ -1,7 +1,7 @@
 ﻿namespace Catalog.API.Consumers;
 
 public class AddToBasketEventConsumer
-	(IDistributedCache cache, ISendEndpointProvider sendEndpointProvider, MongoService mongoService)
+	(IDistributedCache cache, ISendEndpointProvider sendEndpointProvider, IMongoService mongoService)
 	: IConsumer<AddToBasketEvent> 
 {
     public async Task Consume(ConsumeContext<AddToBasketEvent> context)

@@ -17,3 +17,4 @@ global using Microsoft.Extensions.Caching.Distributed;
 global using Shared;
 global using Shared.Messages;
 global using System.Text.Json;
+global using Shared.Extensions;

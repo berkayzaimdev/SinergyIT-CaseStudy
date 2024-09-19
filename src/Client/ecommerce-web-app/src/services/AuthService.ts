@@ -23,6 +23,7 @@ export interface RegisterRequest {
 class AuthService {
   public static async login(request: LoginRequest): Promise<LoginResponse> {
     try {
+      console.log(request);
       const response = await axios.post<LoginResponse>(
         `${API_URL}/auth/login/`,
         request

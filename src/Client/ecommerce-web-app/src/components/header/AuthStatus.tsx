@@ -17,7 +17,6 @@ const AuthStatus: React.FC = () => {
       setLogin(true);
       try {
         setuserName(await UserService.getUserName(token));
-        console.log("User name:", userName);
       } catch (error) {
         console.error("Error fetching user name:", error);
       }

@@ -2,7 +2,7 @@
 
 public static class ServicesRegistration
 {
-	public static IServiceCollection RegisterServices(this IServiceCollection services)
+	public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		var assembly = typeof(Program).Assembly;
 
@@ -11,13 +11,20 @@ public static class ServicesRegistration
 			config.RegisterServicesFromAssembly(assembly);
 		});
 
+		services.AddSingleton<IMongoService, MongoService>();
+
+		services.AddStackExchangeRedisCache(options =>
+		{
+			options.Configuration = configuration.GetConnectionString("Redis");
+		});
+
 		services.AddCors();
 
 		services.AddCarter();
 
-		services.AddSingleton<IMongoService, MongoService>();
-
 		services = SeedData(services).Result;
+
+		services.AddRabbitMq(configuration, assembly);
 
 		return services;
 	}

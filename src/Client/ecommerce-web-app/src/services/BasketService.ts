@@ -17,8 +17,6 @@ class BasketService {
     accessToken: string
   ): Promise<void> {
     try {
-      console.log("istek atılıyor: ", productId, accessToken);
-      console.log(`${API_URL}/add-to-basket/${productId}`);
       const response: AxiosResponse<void> = await axios.post(
         `${API_URL}/add-to-basket/${productId}`,
         null,
@@ -41,7 +39,6 @@ class BasketService {
     accessToken: string
   ): Promise<void> {
     try {
-      console.log("istek atılıyor: ", productId);
       const response: AxiosResponse<void> = await axios.post(
         `${API_URL}/remove-from-basket/`,
         { productId: productId },

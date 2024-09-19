@@ -2,7 +2,7 @@
 
 public class ShoppingCartDto
 {
-	public ICollection<ShoppingCartItemDto> Items { get; set; } = default!;
+	public ICollection<ShoppingCartItemDto> Items { get; set; } = [];
 }
 
 public class ShoppingCartItemDto

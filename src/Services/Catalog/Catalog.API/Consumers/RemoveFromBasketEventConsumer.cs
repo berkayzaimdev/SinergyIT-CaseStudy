@@ -1,7 +1,7 @@
 ﻿namespace Catalog.API.Consumers;
 
 public class RemoveFromBasketEventConsumer
-	(IDistributedCache cache, ISendEndpointProvider sendEndpointProvider, MongoService mongoService)
+	(IDistributedCache cache, ISendEndpointProvider sendEndpointProvider, IMongoService mongoService)
 	: IConsumer<RemoveFromBasketEvent>
 {
 	public async Task Consume(ConsumeContext<RemoveFromBasketEvent> context)

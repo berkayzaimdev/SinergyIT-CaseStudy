@@ -7,3 +7,8 @@ global using MassTransit;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Shared.Events.Basket;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.IdentityModel.Tokens;
+global using Shared;
+global using Shared.Extensions;
+global using System.Text;

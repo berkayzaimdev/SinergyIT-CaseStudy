@@ -1,4 +1,6 @@
-﻿namespace Basket.API.Features.Basket.AddToBasket;
+﻿using System.Security.Claims;
+
+namespace Basket.API.Features.Basket.AddToBasket;
 
 //public record AddToBasketRequest(string ProductId);
 public record AddToBasketResponse(bool IsSuccess);
@@ -26,7 +28,7 @@ public class AddToBasketEndpoint : ControllerBase
 			return BadRequest("HttpContext is unaccessable");
 		}
 
-		var userId = _accessor.HttpContext!.User.FindFirst("userId")?.Value;
+		var userId = _accessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 		if (string.IsNullOrEmpty(userId))
 		{
@@ -39,23 +41,24 @@ public class AddToBasketEndpoint : ControllerBase
 
 		return Ok(new { UserId = userId, ProductId = productId });
 	}
-
-	//public void AddRoutes(IEndpointRouteBuilder app)
-	//{
-	//	app.MapPost("/add-to-basket/{productId}", [Authorize] async (HttpContext context, IPublishEndpoint _publishEndpoint, [FromRoute] string productId) =>
-	//	{
-	//		var userId = context.User.FindFirst("userId")?.Value;
-
-	//		if (string.IsNullOrEmpty(userId))
-	//		{
-	//			return Results.BadRequest("User ID not found!");
-	//		}
-
-	//		var message = new AddToBasketEvent(userId, productId);
-
-	//		await _publishEndpoint.Publish(message);
-
-	//		return Results.Ok(new { UserId = userId, ProductId = productId });
-	//	});
-	//}
 }
+
+
+//public void AddRoutes(IEndpointRouteBuilder app)
+//{
+//	app.MapPost("/add-to-basket/{productId}", [Authorize] async (HttpContext context, IPublishEndpoint _publishEndpoint, [FromRoute] string productId) =>
+//	{
+//		var userId = context.User.FindFirst("userId")?.Value;
+
+//		if (string.IsNullOrEmpty(userId))
+//		{
+//			return Results.BadRequest("User ID not found!");
+//		}
+
+//		var message = new AddToBasketEvent(userId, productId);
+
+//		await _publishEndpoint.Publish(message);
+
+//		return Results.Ok(new { UserId = userId, ProductId = productId });
+//	});
+//}

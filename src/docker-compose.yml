@@ -24,7 +24,7 @@ services:
     image: redis:latest
 
   rabbitmq:
-    image: rabbitmq:latest
+    image: rabbitmq:management
 
   catalogdb:
     image: mongo:latest

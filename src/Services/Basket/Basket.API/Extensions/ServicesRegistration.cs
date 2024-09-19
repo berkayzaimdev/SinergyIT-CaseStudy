@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Shared;
-using System.Text;
-
-namespace Basket.API.Extensions;
+﻿namespace Basket.API.Extensions;
 
 public static class ServicesRegistration
 {
@@ -30,6 +25,8 @@ public static class ServicesRegistration
 		services.AddControllers();
 
 		services.AddHttpContextAccessor();
+
+		services.AddRabbitMq(configuration, assembly);
 
 		return services;
 	}
