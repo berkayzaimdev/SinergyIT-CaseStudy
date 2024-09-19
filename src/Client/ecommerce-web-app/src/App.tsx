@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import BrandPage from "./pages/BrandPage";
 import ProductsPage from "./pages/ProductsPage";
+import ShoppingCart from "./pages/ShoppingCart";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/:brandId" element={<BrandPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/mycart" element={<ShoppingCart />} />
       </Routes>
     </BrowserRouter>
   );

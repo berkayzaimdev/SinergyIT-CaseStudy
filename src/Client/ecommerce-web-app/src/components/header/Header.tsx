@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <BrandsList></BrandsList>
-            <Nav.Link href="#l>ink">Cart</Nav.Link>
+            <Nav.Link href="/mycart">Cart</Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
