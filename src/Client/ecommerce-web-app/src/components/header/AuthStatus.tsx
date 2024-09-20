@@ -11,7 +11,7 @@ const AuthStatus: React.FC = () => {
   const navigate = useNavigate();
 
   async function checkLoginStatus() {
-    const token = localStorage.getItem("accessToken");
+    const token = await UserService.getToken();
 
     if (token) {
       setLogin(true);

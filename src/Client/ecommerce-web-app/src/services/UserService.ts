@@ -27,6 +27,10 @@ class UserService {
     }
     return null;
   }
+
+  public static async getToken(): Promise<string | null> {
+    return localStorage.getItem("accessToken");
+  }
 }
 
 export default UserService;
