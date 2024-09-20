@@ -17,16 +17,14 @@ class BasketService {
     accessToken: string
   ): Promise<ShoppingCartItemProps[]> {
     try {
-      const response: AxiosResponse<ShoppingCartItemProps[]> = await axios.get(
-        `${API_URL}/get-basket`,
-        {
+      const response: AxiosResponse<{ items: ShoppingCartItemProps[] }> =
+        await axios.get(`${API_URL}/get-basket`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
-      );
-
-      return response.data;
+        });
+      console.log(response.data.items);
+      return response.data.items;
     } catch (error) {
       console.error("Error fetching basket:", error);
       throw new Error("Unable to fetch basket");
