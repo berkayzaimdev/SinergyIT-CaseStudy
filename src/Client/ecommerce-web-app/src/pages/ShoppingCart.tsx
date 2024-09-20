@@ -25,13 +25,6 @@ const ShoppingCart = () => {
     <>
       <Header />
       <Container>
-        <Row>
-          <Col>Image</Col>
-          <Col>Image</Col>
-          <Col>Image</Col>
-          <Col>Image</Col>
-          <Col>Image</Col>
-        </Row>
         {cartItems.map((item) => (
           <ShoppingCartItem
             key={item.id}
