@@ -18,3 +18,6 @@ global using Shared;
 global using Shared.Messages;
 global using System.Text.Json;
 global using Shared.Extensions;
+global using Moq;
+global using Xunit;
+global using FluentAssertions;

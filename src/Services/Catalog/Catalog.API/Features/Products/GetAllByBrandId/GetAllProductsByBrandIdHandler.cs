@@ -24,7 +24,7 @@ public class GetAllProductsByBrandIdHandler
 	{
 		if (!Guid.TryParse(request.BrandId, out var brandId))
 		{
-			throw new ArgumentException("Geçersiz GUID formatı", nameof(request.BrandId));
+			throw new FormatException("Geçersiz GUID formatı");
 		}
 
 		var products = mongoService.GetCollection<Product>()
@@ -47,7 +47,7 @@ public class GetAllProductsByBrandIdHandler
 			.ToEnumerable(cancellationToken)
 			.Select(product =>
 			{
-				var brandname = brandMap.TryGetValue(product.BrandId, out var name) ? name : "Unknown";
+				var brandname = brandMap.TryGetValue(product.BrandId, out var name) ? name : throw new NullReferenceException(nameof(product.BrandId));
 
 				return new GetAllProductsByBrandIdDto
 				(
